@@ -32,6 +32,9 @@ bootstrap = Bootstrap(app)
 app.secret_key = "9KStWezC"
 
 
+# from apps.crud import views as crud_views
+# app.register_blueprint(crud_views.crud, url_prefix="/crud")
+
 # スペースでなくタブを使うとエラーとなる
 # ffmpeg、ffmpegを使用するmoviepyはlolipopサーバーで使用不可
 # tmpdir = tempfile.mkdtemp()は外部からアクセス不能
@@ -39,7 +42,7 @@ app.secret_key = "9KStWezC"
 
 
 @app.route("/", methods=["GET", "POST"])
-def index():
+def editor():
     if request.method == "POST":
         dir = "./uploads/driving"
         for f in os.listdir(dir):
@@ -94,7 +97,7 @@ def index():
 
         session["video_name"] = video_name
         session["music_name"] = music_name
-        return redirect("/sampling")
+        return redirect("/driving_app/sampling")
     else:
         return render_template("index.html")
 
@@ -122,7 +125,7 @@ def sampling():
         video.release()
 
         session["sampling_sec"] = sampling_sec
-        return redirect("/selecting")
+        return redirect("/driving_app/selecting")
 
 
 @app.route("/selecting", methods=["GET"])
@@ -133,7 +136,7 @@ def selecting():
         scene = selecting_scene()
 
         session["scene"] = scene
-        return redirect("/classifying")
+        return redirect("/driving_app/classifying")
 
 
 @app.route("/classifying", methods=["GET"])
@@ -193,7 +196,7 @@ def classifying():
         cv2.destroyAllWindows()
 
         session["new_video_name"] = new_video_name
-        return redirect("/generating")
+        return redirect("/driving_app/generating")
 
 
 @app.route("/generating", methods=["GET"])
@@ -202,9 +205,8 @@ def generating():
         new_video_name = session["new_video_name"]
         music_name = session["music_name"]
 
-        # webアドレス指定のため本番環境でのみ作動
-        # video_path = "http://iut-b.main.jp/uploads/video/" + new_video_name
-        # music_path = "http://iut-b.main.jp/uploads/music/" + music_name
+        # video_path="http://iut-b.main.jp/uploads/video/"+new_video_name
+        # music_path="http://iut-b.main.jp/uploads/music/"+music_name
         video_path = "http://iut-b.main.jp/driving_app/uploads/video/" + new_video_name
         music_path = "http://iut-b.main.jp/driving_app/uploads/music/" + music_name
 
@@ -236,7 +238,7 @@ def generating():
         for f in os.listdir(dir):
             os.remove(os.path.join(dir, f))
 
-        return redirect("/driving_finished")
+        return redirect("/driving_app/driving_finished")
 
 
 def allowed_file(filename):
@@ -246,8 +248,8 @@ def allowed_file(filename):
 def selecting_scene():
     images = [f for f in os.listdir("./uploads/frames") if f[-4:] in [".png", ".jpg"]]
     data = {
-        # webアドレス指定のため本番環境でのみ作動
-        "url": "http://iut-b.main.jp/uploads/frames/",
+        # "url": "http://iut-b.main.jp/uploads/frames/",
+        "url": "http://iut-b.main.jp/driving_app/uploads/frames/",
         "images": images,
         "Nc": 5,
     }

@@ -1,32 +1,25 @@
-{% extends "bootstrap/base.html" %}
-{% block title %}FIRE Visualizer{% endblock %}
+{% extends "./base.html" %}
+{% block title %}Driving Movie{% endblock %}
 
 {% block content %}
-<!-- <div class="container">
-    {% for post in posts %}
-    <article>
-        <h2>{{post.brand1_case1}}</h2>
-
-    </article>
-    {% endfor %}
-</div> -->
-
 <!-- [FC2 Analyzer] //analyzer.fc2.com/  -->
 <script language="javascript" src="//analyzer54.fc2.com/ana/processor.php?uid=2897827" type="text/javascript"></script>
-<noscript><div align="right"><img src="//analyzer54.fc2.com/ana/icon.php?uid=2897827&ref=&href=&wid=0&hei=0&col=0" /></div></noscript>
+<noscript>
+    <div align="right"><img src="//analyzer54.fc2.com/ana/icon.php?uid=2897827&ref=&href=&wid=0&hei=0&col=0" /></div>
+</noscript>
 <!-- [FC2 Analyzer]  -->
 
 <div class="container">
     <h1>Driving Movie</h1>
     <form method="POST" action="/" enctype="multipart/form-data">
-        <label class="form-label">動画ファイル選択</label>
-        <input type="file" class="form-control-lg" name="video" multiple>
+        <label for="formFile" class="form-label">動画ファイル選択</label>
+        <input class="form-control" type="file" name="video" multiple>
 
-        <label class="form-label">音楽ファイル選択</label>
-        <input type="file" class="form-control-lg" name="music" multiple>
+        <label for="formFile" class="form-label">音楽ファイル選択</label>
+        <input class="form-control" type="file" name="music" multiple>
 
-        <label class="form-label">YouTubeから音楽選択</label>
-        <input type="url" class="form-control" name="youtube">
+        <label for="formFile" class="form-label">YouTubeから音楽選択</label>
+        <input class="form-control" type="url" name="youtube">
 
         <input type="submit" class="btn btn-primary">
     </form>
